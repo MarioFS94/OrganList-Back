@@ -1,4 +1,4 @@
-package es;
+package es.organlist;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.springframework.boot.SpringApplication;
