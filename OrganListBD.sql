@@ -57,3 +57,12 @@ alter table ProductoTienda
 	add constraint FK_tienda_id foreign key (tienda) references Tienda(id);
 alter table ProductoTienda
 	add constraint FK_producto_id foreign key (producto) references Producto(id);
+
+insert into Usuario values(1, 'Mario', 'mariofernandezs1@gmail.com', '657152931', '123');
+insert into Lista values (1, 'lista1', 0, 'descripcion', 1);
+insert into Producto 
+values (1, 'coca cola', 'bebida formula secreta', 1, 'Refrescos'),
+(2, 'Lay\'s', 'Patatas fritas de bolsa', 1, 'Patatas de bolsa');
+insert into ListaProducto values (1, 1, 1), (2, 1, 2);
+insert into Tienda values (1, 'Carrefour', 'Supermercado');
+insert into ProductoTienda values (1, 1, 1, 2.0), (2, 2, 1, 1.5);
