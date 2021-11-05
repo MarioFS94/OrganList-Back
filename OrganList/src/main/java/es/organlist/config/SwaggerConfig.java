@@ -3,11 +3,9 @@ package es.organlist.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
-import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.info.BuildProperties;
-import org.springframework.boot.info.InfoProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,13 +32,14 @@ public class SwaggerConfig {
         Contact contact = new Contact();
         contact.setName("Mario Fernández Suárez");
         contact.setEmail("mariofernandezs1@gmail.com");
-        return new Info().title(projectBuildProperties.getName())
+        return new Info().title("OrganList application")
                 .description(projectBuildProperties.get("description"))
                 .contact(contact)
                 .version("1.0.0-SNAPSHOT");
     }
 
-    @Bean @ConditionalOnMissingBean(BuildProperties.class)
+    @Bean
+    @ConditionalOnMissingBean(BuildProperties.class)
     BuildProperties buildProperties() {
         Properties defaultProperties = new Properties();
         defaultProperties.setProperty("description", "OrganList es una aplicación para organizar listas, " +
