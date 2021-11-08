@@ -5,6 +5,7 @@ import es.organlist.service.UserService;
 import es.organlist.utils.DefaultDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -50,7 +51,9 @@ public class OrganListController {
             @ApiResponse(
                     responseCode = "200",
                     description = "You are welcome!",
-                    content = @Content(schema = @Schema(implementation = UserDTO.class))
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                    )
             )
     })
     //Common ApiResponses
