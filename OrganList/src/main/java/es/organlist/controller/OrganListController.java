@@ -2,6 +2,7 @@ package es.organlist.controller;
 
 import es.organlist.model.dto.UserDTO;
 import es.organlist.service.UserService;
+import es.organlist.utils.DefaultDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +22,7 @@ import java.util.List;
 @Tag(name = "OrganListController", description = "Initial controller")
 public class OrganListController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public OrganListController(UserService userService) {
@@ -36,7 +37,7 @@ public class OrganListController {
             )
     })
     //Common ApiResponses
-    //@DefaultDocumentation
+    @DefaultDocumentation
     @GetMapping
     public String index(
             @RequestParam(required = false)
@@ -49,11 +50,11 @@ public class OrganListController {
             @ApiResponse(
                     responseCode = "200",
                     description = "You are welcome!",
-                    content = @Content(schema = @Schema(implementation = String.class))
+                    content = @Content(schema = @Schema(implementation = UserDTO.class))
             )
     })
     //Common ApiResponses
-    //@DefaultDocumentation
+    @DefaultDocumentation
     @GetMapping("users")
     public List<UserDTO> getUsers() {
         return userService.getUsers();

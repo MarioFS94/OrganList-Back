@@ -3,6 +3,7 @@ package es.organlist.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.info.BuildProperties;
@@ -17,12 +18,14 @@ public class SwaggerConfig {
     @Autowired
     private BuildProperties projectBuildProperties;
 
-    /*@Bean
+    @Bean
     public GroupedOpenApi api(){
         return GroupedOpenApi.builder()
+                .group("organlist")
                 .packagesToScan("es.organlist")
                 .build();
-    }*/
+    }
+
     @Bean
     public OpenAPI openApi() {
         return new OpenAPI().info(apiInfo());
@@ -32,7 +35,8 @@ public class SwaggerConfig {
         Contact contact = new Contact();
         contact.setName("Mario Fernández Suárez");
         contact.setEmail("mariofernandezs1@gmail.com");
-        return new Info().title("OrganList application")
+        return new Info()
+                .title("OrganList")
                 .description(projectBuildProperties.get("description"))
                 .contact(contact)
                 .version("1.0.0-SNAPSHOT");

@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-
 @Builder
 @Data
 @NoArgsConstructor
@@ -20,13 +18,13 @@ public class UserDTO {
     @Schema(description = "User identifier")
     private Long id;
 
-    @Schema(description = "User name")
+    @Schema(description = "User name", example = "Mario")
     private String name;
 
-    @Schema(description = "User email")
+    @Schema(description = "User email", example = "mariofernandezs1@gmail.com")
     private String email;
 
-    @Schema(description = "User phone")
+    @Schema(description = "User phone", example = "666554433")
     private String phone;
 
     @JsonIgnore
