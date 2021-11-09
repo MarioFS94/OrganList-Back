@@ -54,7 +54,7 @@ public class OrganListController {
     @Operation(summary = "Get users endpoint", description = "Get users endpoint", responses = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "You are welcome!",
+                    description = "Successfully!",
                     content = @Content(
                             array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
                     )
@@ -67,6 +67,17 @@ public class OrganListController {
         return userService.getUsers();
     }
 
+    @Operation(summary = "Get products endpoint", description = "Get products endpoint", responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully!",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                    )
+            )
+    })
+    //Common ApiResponses
+    @DefaultDocumentation
     @GetMapping(value = "products", consumes = MediaType.ALL_VALUE)
     public Object getProducts() {
         return productService.getProducts();
