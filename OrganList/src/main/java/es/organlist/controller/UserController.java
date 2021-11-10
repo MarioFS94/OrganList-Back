@@ -21,25 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
-@Tag(name = "OrganListController", description = "Initial controller")
-public class OrganListController {
+@RequestMapping("/users")
+@Tag(name = "UserController", description = "Manage user data")
+public class UserController {
 
-    @Operation(summary = "Welcome endpoint", description = "Welcome!!", responses = {
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Operation(summary = "Get users endpoint", description = "Get users endpoint", responses = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "You are welcome!",
-                    content = @Content(schema = @Schema(implementation = String.class))
+                    description = "Successfully!",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = UserDTO.class))
+                    )
             )
     })
     //Common ApiResponses
     @DefaultDocumentation
     @GetMapping
-    public String index(
-            @RequestParam(required = false)
-            @Parameter(description = "Author name") String name
-    ) {
-        return name == null ? "Welcome to OrganList!" : "Welcome " + name + " to OrganList!";
+    public List<UserDTO> getUsers() {
+        return userService.getUsers();
     }
 
 }

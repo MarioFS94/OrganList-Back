@@ -41,6 +41,9 @@ public class OrganListTests {
     @InjectMocks
     OrganListController organListController;
 
+    @InjectMocks
+    UserController userController;
+
     @Mock
     UserServiceImpl userService;
 
@@ -66,7 +69,7 @@ public class OrganListTests {
         userList.add(new UserDTO());
         when(userService.getUsers()).thenReturn(userList);
 
-        List<UserDTO> userListResponse = organListController.getUsers();
+        List<UserDTO> userListResponse = userController.getUsers();
 
         verify(userService, times(1)).getUsers();
         assertThat(userListResponse).isNotNull();
