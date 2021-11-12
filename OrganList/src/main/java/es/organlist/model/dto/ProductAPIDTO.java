@@ -50,7 +50,7 @@ public class ProductAPIDTO {
     /**
      * The Categories.
      */
-    private List<TernaryCategoryAPIDTO> categories;
+    private List<ProductCategoryAPIDTO> categories;
     /**
      * The Display name.
      */

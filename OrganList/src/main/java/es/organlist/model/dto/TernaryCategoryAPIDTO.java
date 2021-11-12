@@ -1,18 +1,23 @@
 package es.organlist.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
- * The type Ternary category apidto.
+ * The type Subcategory dto.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TernaryCategoryAPIDTO {
+    //Ejemplo: categoria terciaria 556 ---> producto 13418
     /**
      * The Id.
      */
@@ -22,11 +27,23 @@ public class TernaryCategoryAPIDTO {
      */
     private String name;
     /**
-     * The Level.
-     */
-    private int level;
-    /**
      * The Order.
      */
     private int order;
+    /**
+     * The Layout.
+     */
+    private int layout;
+    /**
+     * The Products.
+     */
+    private List<ProductAPIDTO> products;
+    /**
+     * The Published.
+     */
+    private boolean published;
+    /**
+     * The Is extended.
+     */
+    private boolean is_extended;
 }

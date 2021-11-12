@@ -8,14 +8,29 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * The type Result dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResultDTO {
 
-    public Integer next;
-    public int count;
-    public List<CategoryAPIDTO> results;
-    public Integer previous;
+    /**
+     * The Next.
+     */
+    private Integer next;
+    /**
+     * The Count.
+     */
+    private int count;
+    /**
+     * The Results.
+     */
+    private List<CategoryAPIDTO> results;
+    /**
+     * The Previous.
+     */
+    private Integer previous;
 }

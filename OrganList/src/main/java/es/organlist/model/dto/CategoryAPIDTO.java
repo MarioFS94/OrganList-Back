@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryAPIDTO {
-
+//Ejemplo: categoria 19
     /**
      * The Id.
      */
@@ -39,7 +39,7 @@ public class CategoryAPIDTO {
     /**
      * The Categories.
      */
-    private List<Object> categories;
+    private List<SubcategoryAPIDTO> categories;
     /**
      * The Is extended.
      */
