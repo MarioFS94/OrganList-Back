@@ -1,6 +1,5 @@
-package es.organlist.service.impl;
+package es.organlist.model.dto.api;
 
-import es.organlist.model.dto.CategoryAPIDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultDTO {
+public class ResultAPIDTO {
 
     /**
      * The Next.

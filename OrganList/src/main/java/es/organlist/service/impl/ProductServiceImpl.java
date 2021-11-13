@@ -1,16 +1,19 @@
 package es.organlist.service.impl;
 
-import es.organlist.model.dto.CategoryAPIDTO;
-import es.organlist.model.dto.ProductAPIDTO;
-import es.organlist.model.dto.SubcategoryAPIDTO;
+import es.organlist.model.dto.api.CategoryAPIDTO;
+import es.organlist.model.dto.api.ProductAPIDTO;
+import es.organlist.model.dto.api.ResultAPIDTO;
+import es.organlist.model.dto.api.SubcategoryAPIDTO;
+import es.organlist.utils.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.webjars.NotFoundException;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -53,21 +56,50 @@ public class ProductServiceImpl {
      * @return the products categories
      */
     public List<CategoryAPIDTO> getProductsCategories(String lang) {
+        return callProductCategoriesEndpoint(lang);
+    }
+
+    /**
+     * Gets all products.
+     *
+     * @param lang the lang
+     * @return the all products
+     */
+    public List<ProductAPIDTO> getAllProducts(String lang) {
+        List<CategoryAPIDTO> list = callProductCategoriesEndpoint(lang);
+        return getProducts(list, lang);
+    }
+
+    /**
+     * Call product categories endpoint.
+     *
+     * @param lang the lang
+     * @return the list
+     */
+    private List<CategoryAPIDTO> callProductCategoriesEndpoint(String lang) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(rootMercadonaAPI + "/api/v1_1/categories/?lang=" + lang)
                 .buildAndExpand().toUri();
 
-        ResultDTO response = this.webClient.get()
+        ResultAPIDTO response = this.webClient.get()
                 .uri(uri)
                 .retrieve()
-                .bodyToMono(ResultDTO.class)
+                .bodyToMono(ResultAPIDTO.class)
                 .block();
         List<CategoryAPIDTO> list = response != null ? response.getResults() : new ArrayList<>();
-        List<ProductAPIDTO> productList = getProducts(list, lang);
+
+        Util.checkEmptyList(list.isEmpty(), "No hay productos");
 
         return list;
     }
 
+    /**
+     * Gets products.
+     *
+     * @param categories the categories
+     * @param lang       the lang
+     * @return the products
+     */
     private List<ProductAPIDTO> getProducts(List<CategoryAPIDTO> categories, String lang) {
         List<ProductAPIDTO> products = new ArrayList<>();
 
@@ -82,6 +114,8 @@ public class ProductServiceImpl {
             }
         }
 
+        Util.checkEmptyList(products.isEmpty(), "No hay productos");
+
         return products;
     }
 
@@ -90,50 +124,45 @@ public class ProductServiceImpl {
      *
      * @param categoryId the category
      * @param lang       the lang
-     * @return the products category by id
+     * @return the product category by id
      */
     public CategoryAPIDTO getProductsCategoryById(Integer categoryId, String lang) {
-
-        URI uri;
-       /* if (Objects.isNull(category)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id de categoría no informado");
-        }*/
-        try {
-            uri = UriComponentsBuilder
-                    .fromHttpUrl(rootMercadonaAPI + "/api/v1_1/categories/" + categoryId + "/?lang=" + lang)
-                    .buildAndExpand().toUri();
-        } catch (Exception ex) {
-            log.debug("URL mal formada.");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "URL mal formada " + ex);
-        }
-
-/*try{
-
-}catch (WebException ex)
-{
-    if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null)
-    {
-        var resp = (HttpWebResponse)ex.Response;
-        if (resp.StatusCode == HttpStatusCode.NotFound) // HTTP 404
-        {
-            //Handle it
-        }
+        return callProductsCategoryByIdEndpoint(categoryId, lang);
     }
-    //Handle it
-}*/
-        CategoryAPIDTO response = this.webClient.get()
+
+    /**
+     * Call products category by id endpoint.
+     *
+     * @param categoryId the category id
+     * @param lang       the lang
+     * @return the category apidto
+     */
+    private CategoryAPIDTO callProductsCategoryByIdEndpoint(Integer categoryId, String lang) {
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(rootMercadonaAPI + "/api/v1_1/categories/" + categoryId + "/?lang=" + lang)
+                .buildAndExpand().toUri();
+
+        return this.webClient.get()
                 .uri(uri)
                 .retrieve()
-                .onStatus(HttpStatus::is4xxClientError, responseStatus -> {
-                    log.debug("Id de categoría no informado");
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id de categoría no informado");
-                })
                 .bodyToMono(CategoryAPIDTO.class)
                 .block();
+    }
 
-        List<ProductAPIDTO> productList = getProductsByCategory(response);
+    /**
+     * Gets products by category.
+     *
+     * @param categoryId the category id
+     * @param lang       the lang
+     * @return the products by category
+     */
+    public List<ProductAPIDTO> getProductsByCategory(Integer categoryId, String lang) {
+        CategoryAPIDTO response = callProductsCategoryByIdEndpoint(categoryId, lang);
+        List<ProductAPIDTO> productsCategory = getProductsByCategory(response);
 
-        return response;
+        Util.checkEmptyList(productsCategory.isEmpty(), "No hay productos en esta categoría");
+
+        return productsCategory;
     }
 
     /**
@@ -145,9 +174,7 @@ public class ProductServiceImpl {
     private List<ProductAPIDTO> getProductsByCategory(CategoryAPIDTO category) {
         List<ProductAPIDTO> products = new ArrayList<>();
         for (SubcategoryAPIDTO subcategory : category.getCategories()) {
-            for (ProductAPIDTO productAPIDTO : subcategory.getProducts()) {//subcategory.getCategories()
-                products.add(productAPIDTO);
-            }
+            products.addAll(subcategory.getProducts());
         }
         return products;
     }
@@ -160,23 +187,24 @@ public class ProductServiceImpl {
      * @return the product by id
      */
     public ProductAPIDTO getProductById(Integer productId, String lang) {
+        ProductAPIDTO response = null;
+
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(rootMercadonaAPI + "/api/v1_1/products/" + productId + "/?lang=" + lang)
                 .buildAndExpand().toUri();
 
-        ProductAPIDTO response = this.webClient.get()
-                .uri(uri)
-                .retrieve()
-//                .onStatus(HttpStatus::is4xxClientError, responseStatus -> {
-//                    log.debug("Id de categoría no informado");
-//                    if (responseStatus.rawStatusCode() == 404) {
-//                        //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recurso no encontrado");
-//                        throw new Error("Recurso no encontrado");
-//                    }
-//                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id de categoría no informado");
-//                })
-                .bodyToMono(ProductAPIDTO.class)
-                .block();
+        try{
+            response = this.webClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .bodyToMono(ProductAPIDTO.class)
+                    .block();
+        } catch (WebClientResponseException e) {
+            log.info("Is an error {}", e.getStatusCode());
+            if (HttpStatus.NOT_FOUND != e.getStatusCode()){
+                throw new NotFoundException("404 custom");
+            }
+        }
 
         return response;
     }

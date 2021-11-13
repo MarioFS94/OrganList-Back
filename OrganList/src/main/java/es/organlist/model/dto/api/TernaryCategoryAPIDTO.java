@@ -1,4 +1,4 @@
-package es.organlist.model.dto;
+package es.organlist.model.dto.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

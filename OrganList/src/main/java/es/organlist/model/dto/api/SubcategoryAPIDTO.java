@@ -1,5 +1,6 @@
-package es.organlist.model.dto;
+package es.organlist.model.dto.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,14 +9,15 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * The type Categories dto.
+ * The type Subcategory dto.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryAPIDTO {
-//Ejemplo: categoria 19
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class SubcategoryAPIDTO {
+    //Ejemplo: subcategoria 166 ---> categoria terciaria 556 ---> producto 13418
     /**
      * The Id.
      */
@@ -33,13 +35,14 @@ public class CategoryAPIDTO {
      */
     private int layout;
     /**
+     * The Products.
+     */
+    private List<TernaryCategoryAPIDTO> categories;
+    private List<ProductAPIDTO> products;
+    /**
      * The Published.
      */
     private boolean published;
-    /**
-     * The Categories.
-     */
-    private List<SubcategoryAPIDTO> categories;
     /**
      * The Is extended.
      */

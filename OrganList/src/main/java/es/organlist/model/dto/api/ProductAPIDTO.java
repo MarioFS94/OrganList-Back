@@ -1,4 +1,4 @@
-package es.organlist.model.dto;
+package es.organlist.model.dto.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
