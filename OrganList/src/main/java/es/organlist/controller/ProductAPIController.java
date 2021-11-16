@@ -1,9 +1,8 @@
 package es.organlist.controller;
 
-import es.organlist.model.dto.ProductDTO;
 import es.organlist.model.dto.api.CategoryAPIDTO;
 import es.organlist.model.dto.api.ProductAPIDTO;
-import es.organlist.service.impl.ProductServiceImpl;
+import es.organlist.service.impl.ProductAPIServiceImpl;
 import es.organlist.utils.DefaultDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -26,23 +25,23 @@ import java.util.List;
  * The type Product controller.
  */
 @RestController
-@RequestMapping("/products")
-@Tag(name = "ProductController", description = "Gestión de productos")
-public class ProductController {
+@RequestMapping("/api/products")
+@Tag(name = "ProductAPIController", description = "Gestión de productos de la API de Mercadona")
+public class ProductAPIController {
 
     /**
      * The Product service.
      */
-    private final ProductServiceImpl productService;
+    private final ProductAPIServiceImpl productServiceApi;
 
     /**
      * Instantiates a new Product controller.
      *
-     * @param productService the product service
+     * @param productServiceApi the product service
      */
     @Autowired
-    public ProductController(ProductServiceImpl productService) {
-        this.productService = productService;
+    public ProductAPIController(ProductAPIServiceImpl productServiceApi) {
+        this.productServiceApi = productServiceApi;
     }
 
     /**
@@ -68,7 +67,7 @@ public class ProductController {
     public List<CategoryAPIDTO> getProductsCategories(
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
     ) {
-        return null; //return productService.getProductsCategories(lang);
+        return productServiceApi.getProductsCategories(lang);
     }
 
     /**
@@ -95,7 +94,7 @@ public class ProductController {
             @Parameter(description = "Identificador de categoria") @PathVariable Integer categoryId,
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
     ) {
-        return null; //return productService.getProductsCategoryById(categoryId, lang);
+        return productServiceApi.getProductsCategoryById(categoryId, lang);
     }
 
     /**
@@ -121,7 +120,7 @@ public class ProductController {
     public ProductAPIDTO getProductById(
             @Parameter(description = "Identificador de producto") @PathVariable Integer productId,
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang) {
-        return null; //return productService.getProductById(productId, lang);
+        return productServiceApi.getProductById(productId, lang);
     }
 
     /**
@@ -148,7 +147,7 @@ public class ProductController {
             @Parameter(description = "Identificador de categoria") @PathVariable Integer categoryId,
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
     ) {
-        return null; //return productService.getProductsByCategory(categoryId, lang);
+        return productServiceApi.getProductsByCategory(categoryId, lang);
     }
 
 
@@ -156,7 +155,7 @@ public class ProductController {
      * Gets all products.
      *
      * @param lang the lang
-     * @return all products
+     * @return the all products
      */
     @Operation(summary = "Get all products endpoint",
             description = "Get all products endpoint",
@@ -165,16 +164,16 @@ public class ProductController {
                             responseCode = "200",
                             description = "Successfully!",
                             content = @Content(
-                                    array = @ArraySchema(schema = @Schema(implementation = ProductDTO.class))
+                                    array = @ArraySchema(schema = @Schema(implementation = ProductAPIDTO.class))
                             )
                     )
             })
     @DefaultDocumentation
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ProductDTO> getAllProducts(
+    public List<ProductAPIDTO> getAllProducts(
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
     ) {
-        return productService.getProducts(lang);
+        return productServiceApi.getAllProducts(lang);
     }
 
 }

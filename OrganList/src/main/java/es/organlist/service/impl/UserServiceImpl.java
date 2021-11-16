@@ -5,7 +5,6 @@ import es.organlist.model.dto.UserDTO;
 import es.organlist.model.entity.UsuarioEntity;
 import es.organlist.repository.UserRepository;
 import es.organlist.service.UserService;
-import lombok.NoArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
