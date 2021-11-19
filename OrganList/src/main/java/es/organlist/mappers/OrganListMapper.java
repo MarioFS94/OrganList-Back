@@ -12,4 +12,5 @@ public interface OrganListMapper {
     UserDTO toUserDTO(UsuarioEntity usuarioEntity);
 
     ProductDTO toProductDTO(ProductEntity productEntity);
+
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class TernaryCategoryAPIDTO {
     /**
      * The Id.
      */
-    private int id;
+    private BigDecimal id;
     /**
      * The Name.
      */

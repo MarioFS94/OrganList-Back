@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public class ProductAPIController {
     @DefaultDocumentation
     @GetMapping(value = "categories/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public CategoryAPIDTO getProductsCategoryById(
-            @Parameter(description = "Identificador de categoria") @PathVariable Integer categoryId,
+            @Parameter(description = "Identificador de categoria") @PathVariable BigDecimal categoryId,
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
     ) {
         return productServiceApi.getProductsCategoryById(categoryId, lang);
@@ -144,7 +145,7 @@ public class ProductAPIController {
     @DefaultDocumentation
     @GetMapping(value = "categories/{categoryId}/all-products", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ProductAPIDTO> getProductsByCategory(
-            @Parameter(description = "Identificador de categoria") @PathVariable Integer categoryId,
+            @Parameter(description = "Identificador de categoria") @PathVariable BigDecimal categoryId,
             @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
     ) {
         return productServiceApi.getProductsByCategory(categoryId, lang);

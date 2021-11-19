@@ -14,7 +14,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 public class ProductDTO {
 
-    private Long id;
+    private Integer id;
 
     private String name;
 

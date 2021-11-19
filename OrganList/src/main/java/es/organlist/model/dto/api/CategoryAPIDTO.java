@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class CategoryAPIDTO {
     /**
      * The Id.
      */
-    private int id;
+    private BigDecimal id;
     /**
      * The Name.
      */

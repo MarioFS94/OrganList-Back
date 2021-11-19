@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 /**
  * The type Ternary category apidto.
  */
@@ -16,7 +19,7 @@ public class ProductCategoryAPIDTO {
     /**
      * The Id.
      */
-    private int id;
+    private BigDecimal id;
     /**
      * The Name.
      */
@@ -25,6 +28,9 @@ public class ProductCategoryAPIDTO {
      * The Level.
      */
     private int level;
+    //private List<CategoriesLevelAPIDTO> categories;
+    private List<ProductCategoryAPIDTO> categories;
+    //private Object categories;
     /**
      * The Order.
      */

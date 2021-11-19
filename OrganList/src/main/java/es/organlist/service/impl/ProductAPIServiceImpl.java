@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import org.springframework.web.util.UriComponentsBuilder;
 import org.webjars.NotFoundException;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,7 @@ public class ProductAPIServiceImpl {
      * @param lang       the lang
      * @return the product category by id
      */
-    public CategoryAPIDTO getProductsCategoryById(Integer categoryId, String lang) {
+    public CategoryAPIDTO getProductsCategoryById(BigDecimal categoryId, String lang) {
         return callProductsCategoryByIdEndpoint(categoryId, lang);
     }
 
@@ -139,7 +140,7 @@ public class ProductAPIServiceImpl {
      * @param lang       the lang
      * @return the category apidto
      */
-    private CategoryAPIDTO callProductsCategoryByIdEndpoint(Integer categoryId, String lang) {
+    private CategoryAPIDTO callProductsCategoryByIdEndpoint(BigDecimal categoryId, String lang) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(rootMercadonaAPI + "/api/v1_1/categories/" + categoryId + "/?lang=" + lang)
                 .buildAndExpand().toUri();
@@ -158,7 +159,7 @@ public class ProductAPIServiceImpl {
      * @param lang       the lang
      * @return the products by category
      */
-    public List<ProductAPIDTO> getProductsByCategory(Integer categoryId, String lang) {
+    public List<ProductAPIDTO> getProductsByCategory(BigDecimal categoryId, String lang) {
         CategoryAPIDTO response = callProductsCategoryByIdEndpoint(categoryId, lang);
         List<ProductAPIDTO> productsCategory = getProductsByCategory(response);
 

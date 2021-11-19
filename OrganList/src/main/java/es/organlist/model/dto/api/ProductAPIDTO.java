@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -18,11 +19,13 @@ public class ProductAPIDTO {
     /**
      * The Id.
      */
-    private String id;
+    private BigDecimal id;
     /**
      * The Slug.
      */
     private String slug;
+    private DetailsAPIDTO details;
+    private ImagesAPIDTO photos;
     /**
      * The Limit.
      */
@@ -51,6 +54,9 @@ public class ProductAPIDTO {
      * The Categories.
      */
     private List<ProductCategoryAPIDTO> categories;
+    //private List<CategoriesLevelAPIDTO> categories;
+    //private List<String> categories;
+    //private List<Object> categories;
     /**
      * The Display name.
      */

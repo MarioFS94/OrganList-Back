@@ -22,7 +22,7 @@ public class UserDTO {
      * The Id.
      */
     @Schema(description = "User identifier")
-    private Long id;
+    private Integer id;
 
     /**
      * The Name.
