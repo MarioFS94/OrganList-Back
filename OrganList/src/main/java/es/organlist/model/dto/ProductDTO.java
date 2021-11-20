@@ -24,4 +24,6 @@ public class ProductDTO {
     private boolean essential;
 
     private String category;
+
+    //private Integer units;
 }

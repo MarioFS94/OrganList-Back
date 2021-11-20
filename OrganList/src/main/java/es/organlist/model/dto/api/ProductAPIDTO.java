@@ -54,9 +54,11 @@ public class ProductAPIDTO {
      * The Categories.
      */
     private List<ProductCategoryAPIDTO> categories;
+
     //private List<CategoriesLevelAPIDTO> categories;
     //private List<String> categories;
     //private List<Object> categories;
+//    private Object categories;
     /**
      * The Display name.
      */

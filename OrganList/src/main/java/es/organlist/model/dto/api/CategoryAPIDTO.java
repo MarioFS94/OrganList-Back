@@ -40,7 +40,9 @@ public class CategoryAPIDTO {
     /**
      * The Categories.
      */
-    private List<SubcategoryAPIDTO> categories;
+    private List<CategoryAPIDTO> categories;
+    private List<ProductAPIDTO> products;
+
 
     /**
      * The Is extended.

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,18 +52,21 @@ public class ProductServiceImpl {
             productsAPI.forEach(productAPIDTO -> {
                 ProductDTO producto = new ProductDTO();
                 producto.setName(productAPIDTO.getDisplay_name());
-                producto.setDescription(productAPIDTO.getDetails().getDescription());
+           //     producto.setDescription(productAPIDTO.getDetail().getDescription());
                 producto.setEssential(false);
                 products.add(producto);
             });
 
+            if (products.isEmpty()) {
+                throw new NotFoundException("No se cargaron productos");
+            }
 
-            //  List<ProductDTO> products = mapper.toProductDTOList(productsAPI);
             //productRepository.saveAll(products);
         } catch (Exception e) {
             log.info("Error: " + e.getMessage());
             throw e;
         }
-        return new ResponseEntity(HttpStatus.OK);
+
+        return new ResponseEntity("Datos cargados correctamente.", HttpStatus.OK);
     }
 }

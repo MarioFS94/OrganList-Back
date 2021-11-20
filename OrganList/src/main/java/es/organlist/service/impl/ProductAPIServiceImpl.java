@@ -106,7 +106,7 @@ public class ProductAPIServiceImpl {
 
         for (CategoryAPIDTO category : categories) {
 
-            for (SubcategoryAPIDTO subcategory : category.getCategories()) {
+            for (CategoryAPIDTO subcategory : category.getCategories()) {
                 //Sacamos la subcategorias
                 CategoryAPIDTO categoryObj = getProductsCategoryById(subcategory.getId(), lang);
                 //sacamos los productos de cada categoria
@@ -176,7 +176,7 @@ public class ProductAPIServiceImpl {
      */
     private List<ProductAPIDTO> getProductsByCategory(CategoryAPIDTO category) {
         List<ProductAPIDTO> products = new ArrayList<>();
-        for (SubcategoryAPIDTO subcategory : category.getCategories()) {
+        for (CategoryAPIDTO subcategory : category.getCategories()) {
             products.addAll(subcategory.getProducts());
         }
         return products;
