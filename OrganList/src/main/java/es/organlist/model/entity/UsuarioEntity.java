@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class UsuarioEntity {
 
     @Id
-    private Long id;
+    private Integer id;
 
     @Column(name = "nombre")
     private String name;

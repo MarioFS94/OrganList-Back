@@ -18,24 +18,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "producto")
-public class ProductEntity {
+@Table(name = "productotienda")
+public class ProductShopEntity {
 
     @Id
     private Integer id;
 
-    @Column(name = "nombre")
-    private String name;
+    @Column(name =  "producto")
+    private Integer product;
 
-    @Column(name = "descripcion")
-    private String description;
+    @Column(name =  "tienda")
+    private Integer shop;
 
-    @Column(name = "esencial")
-    private boolean essential;
-
-    @Column(name = "categoria")
-    private String category;
-
-    @Column(name = "precio")
-    private BigDecimal price;
 }

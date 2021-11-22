@@ -26,13 +26,15 @@ create table Producto(
 	nombre varchar(70) not null,
 	descripcion varchar(255) null,
 	esencial boolean not null,
-	categoria varchar(100) not null
+	categoria varchar(100) not null,
+	precio decimal(6, 2) null
 );
 
 create table ListaProducto(
 	id int unsigned primary key auto_increment,
 	lista int unsigned not null,
-	producto int unsigned not null
+	producto int unsigned not null,
+	unidades tinyint unsigned default 0
 );
 
 alter table ListaProducto
@@ -43,8 +45,8 @@ alter table ListaProducto
 create table ProductoTienda(
 	id int unsigned primary key auto_increment,
 	producto int unsigned not null,
-	tienda int unsigned not null,
-	precio decimal(6, 2) null
+	tienda int unsigned not null
+	--precio decimal(6, 2) null --seria sila app fuera para diferentes tiendas
 );
 
 create table Tienda(
@@ -59,10 +61,4 @@ alter table ProductoTienda
 	add constraint FK_producto_id foreign key (producto) references Producto(id);
 
 insert into Usuario values(1, 'Mario', 'mariofernandezs1@gmail.com', '657152931', '123');
-insert into Lista values (1, 'lista1', 0, 'descripcion', 1);
-insert into Producto 
-values (1, 'coca cola', 'bebida formula secreta', 1, 'Refrescos'),
-(2, 'Lay\'s', 'Patatas fritas de bolsa', 1, 'Patatas de bolsa');
-insert into ListaProducto values (1, 1, 1), (2, 1, 2);
-insert into Tienda values (1, 'Carrefour', 'Supermercado');
-insert into ProductoTienda values (1, 1, 1, 2.0), (2, 2, 1, 1.5);
+insert into Tienda values (1, 'Mercadona', 'Supermercado');

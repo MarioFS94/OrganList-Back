@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
+import java.math.BigDecimal;
+
 @Builder
 @Data
 @Jacksonized
@@ -25,5 +27,5 @@ public class ProductDTO {
 
     private String category;
 
-    //private Integer units;
+    private BigDecimal price;
 }
