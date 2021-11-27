@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class ProductServiceImpl {
         this.productShopRepository = productShopRepository;
     }
 
-    public List<ProductDTO> getProducts(String lang) {
+    public List<ProductDTO> getProducts(/*String lang*/) {
         List<ProductEntity> productEntities = productRepository.findAll();
         return productEntities.stream()
                 .map(productEntity -> mapper.toProductDTO(productEntity))
@@ -58,10 +57,6 @@ public class ProductServiceImpl {
             List<ProductEntity> productEntities = new ArrayList<>();
 
             productsAPI.forEach(productAPIDTO -> {
-                /*ProductDTO productDTO = new ProductDTO();
-                productDTO.setName(productAPIDTO.getDisplay_name());
-                productDTO.setPrice(new BigDecimal(productAPIDTO.getPrice_instructions().getUnit_price()));
-                productDTO.setEssential(false);*/
                 ProductDTO productDTO = mapper.mapProductApiToProductDTO(productAPIDTO);
                 products.add(productDTO);
             });
@@ -71,10 +66,10 @@ public class ProductServiceImpl {
             }
             productEntities.addAll(mapper.toProductEntities(products));
 
-            productRepository.saveAll(productEntities);
+            //productRepository.saveAll(productEntities);
 
             List<ProductShopEntity> productShopEntities = getProductShopEntities();
-            productShopRepository.saveAll(productShopEntities);
+            //productShopRepository.saveAll(productShopEntities);
         } catch (Exception e) {
             log.info("Error: " + e.getMessage());
             throw e;

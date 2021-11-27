@@ -1,8 +1,10 @@
 package es.organlist.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import es.organlist.model.dto.ProductDTO;
 import es.organlist.model.dto.UserDTO;
 import es.organlist.service.UserService;
+import es.organlist.service.impl.ProductServiceImpl;
 import es.organlist.service.impl.UserServiceImpl;
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,29 +36,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @ExtendWith(MockitoExtension.class)
 //@WebMvcTest(controllers = OrganListController.class)
 //@SpringBootTest(classes = {OrganListController.class, UserServiceImpl.class})
-public class OrganListTests {
+public class ProductControllerTests {
 
     private MockMvc mvc;
 
     @InjectMocks
-    OrganListController organListController;
-
-    @InjectMocks
-    UserController userController;
+    ProductController productController;
 
     @Mock
-    UserServiceImpl userService;
+    ProductServiceImpl productService;
 
     /*@BeforeEach
     public void setup() {
         // MockMvc standalone approach
-        mvc = MockMvcBuilders.standaloneSetup(organListController).build();
+        mvc = MockMvcBuilders.standaloneSetup(productController).build();
     }
     @Test
-    public void organListControllerTest() throws Exception {
+    public void productControllerTest() throws Exception {
         // when
         MockHttpServletResponse response = mvc.perform(
-                        get("/users")
+                        get("/products")
                                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
@@ -65,15 +64,15 @@ public class OrganListTests {
     }*/
     @Test
     public void organListControllerTest()  {
-        List<UserDTO> userList = new ArrayList<>();
-        userList.add(new UserDTO());
-        when(userService.getUsers()).thenReturn(userList);
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        productDTOList.add(mock(ProductDTO.class));
+        when(productService.getProducts()).thenReturn(productDTOList);
 
-        List<UserDTO> userListResponse = userController.getUsers();
+        List<ProductDTO> productDTOS = productController.getAllProducts();
 
-        verify(userService, times(1)).getUsers();
-        assertThat(userListResponse).isNotNull();
-        assertThat(userListResponse.size()).isNotEqualTo(0);
+        verify(productService, times(1)).getProducts();
+        assertThat(productDTOS).isNotNull();
+        assertThat(productDTOS.size()).isNotEqualTo(0);
     }
 
 }
