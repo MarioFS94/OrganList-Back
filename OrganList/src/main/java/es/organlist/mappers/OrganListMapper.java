@@ -6,7 +6,8 @@ import es.organlist.model.dto.UserDTO;
 import es.organlist.model.dto.api.ProductAPIDTO;
 import es.organlist.model.entity.ListEntity;
 import es.organlist.model.entity.ProductEntity;
-import es.organlist.model.entity.UsuarioEntity;
+import es.organlist.model.entity.ProductShopEntity;
+import es.organlist.model.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ValueMapping;
@@ -16,9 +17,16 @@ import java.util.List;
 @Mapper
 public interface OrganListMapper {
 
-    UserDTO toUserDTO(UsuarioEntity usuarioEntity);
+    UserDTO toUserDTO(UserEntity userEntity);
 
     ProductDTO toProductDTO(ProductEntity productEntity);
+
+    ProductEntity toProductEntity(ProductDTO productDTO);
+
+    @Mapping(target = "productEntity.id", ignore = true)
+    @Mapping(source = "productEntity.id", target = "product")
+    @ValueMapping(source = "shopId", target = "shop")
+    ProductShopEntity toProductShopEntity(ProductEntity productEntity, Integer shopId);
 
     List<ProductEntity> toProductEntities(List<ProductDTO> productDTO);
 
@@ -33,4 +41,6 @@ public interface OrganListMapper {
     ListDTO toListDTO(ListEntity listEntity);
 
     ListEntity toListEntity(ListDTO listDTO);
+
+    UserEntity toUserEntity(UserDTO userDTO);
 }

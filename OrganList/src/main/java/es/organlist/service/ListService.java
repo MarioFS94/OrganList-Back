@@ -1,9 +1,10 @@
-package es.organlist.service.impl;
+package es.organlist.service;
 
 import es.organlist.mappers.OrganListMapper;
 import es.organlist.model.dto.ListDTO;
 import es.organlist.model.dto.ProductDTO;
 import es.organlist.model.entity.ListEntity;
+import es.organlist.model.entity.UserEntity;
 import es.organlist.repository.ListRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,6 +34,9 @@ public class ListService {
     }
 
     public ResponseEntity insertList(ListDTO list) {
+        if (list == null) {
+            throw new NotFoundException("No hay datos de entrada");
+        }
         ListEntity entityList = mapper.toListEntity(list);
         listRepository.save(entityList);
         return new ResponseEntity("Insertado!", HttpStatus.CREATED);
@@ -72,5 +76,13 @@ public class ListService {
             throw new NotFoundException("No existe el producto con id " + listId + "\n" + e.getMessage());
         }
         return new ResponseEntity("Modificado el valor de favorito!", HttpStatus.OK);
+    }
+
+    public ListDTO getList(Integer listId) {
+        Optional<ListEntity> listEntity = listRepository.findById(listId);
+        if (!listEntity.isPresent()) {
+            throw new NotFoundException("La lista con id " + listId + " no existe.");
+        }
+        return mapper.toListDTO(listEntity.get());
     }
 }

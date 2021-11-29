@@ -1,4 +1,4 @@
-package es.organlist.service.impl;
+package es.organlist.service;
 
 import es.organlist.model.dto.api.CategoryAPIDTO;
 import es.organlist.model.dto.api.ProductAPIDTO;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class ProductAPIServiceImpl {
+public class ProductAPIService {
 
     /**
      * Url base de la API
@@ -44,7 +44,7 @@ public class ProductAPIServiceImpl {
      * @param webClientBuilder the web client builder
      */
     @Autowired
-    public ProductAPIServiceImpl(WebClient.Builder webClientBuilder) {
+    public ProductAPIService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder
                 .baseUrl(rootMercadonaAPI)
                 .build();

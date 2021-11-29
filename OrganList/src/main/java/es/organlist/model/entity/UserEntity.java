@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "usuario")
-public class UsuarioEntity {
+public class UserEntity {
 
     @Id
     private Integer id;

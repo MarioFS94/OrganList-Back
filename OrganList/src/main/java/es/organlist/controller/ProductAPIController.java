@@ -2,7 +2,7 @@ package es.organlist.controller;
 
 import es.organlist.model.dto.api.CategoryAPIDTO;
 import es.organlist.model.dto.api.ProductAPIDTO;
-import es.organlist.service.impl.ProductAPIServiceImpl;
+import es.organlist.service.ProductAPIService;
 import es.organlist.utils.DefaultDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,7 +33,7 @@ public class ProductAPIController {
     /**
      * The Product service.
      */
-    private final ProductAPIServiceImpl productServiceApi;
+    private final ProductAPIService productServiceApi;
 
     /**
      * Instantiates a new Product controller.
@@ -41,7 +41,7 @@ public class ProductAPIController {
      * @param productServiceApi the product service
      */
     @Autowired
-    public ProductAPIController(ProductAPIServiceImpl productServiceApi) {
+    public ProductAPIController(ProductAPIService productServiceApi) {
         this.productServiceApi = productServiceApi;
     }
 

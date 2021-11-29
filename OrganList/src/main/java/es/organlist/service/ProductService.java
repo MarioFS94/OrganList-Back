@@ -1,4 +1,4 @@
-package es.organlist.service.impl;
+package es.organlist.service;
 
 import es.organlist.mappers.OrganListMapper;
 import es.organlist.model.dto.ProductDTO;
@@ -10,6 +10,7 @@ import es.organlist.repository.ProductShopRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -24,20 +26,20 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class ProductServiceImpl {
+public class ProductService {
 
     private static OrganListMapper mapper = Mappers.getMapper(OrganListMapper.class);
     /**
      * El servicio de la API de Mercadona
      */
-    private final ProductAPIServiceImpl productServiceApi;
+    private final ProductAPIService productServiceApi;
 
     private final ProductRepository productRepository;
 
     private final ProductShopRepository productShopRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductAPIServiceImpl productServiceApi, ProductRepository productRepository, ProductShopRepository productShopRepository) {
+    public ProductService(ProductAPIService productServiceApi, ProductRepository productRepository, ProductShopRepository productShopRepository) {
         this.productServiceApi = productServiceApi;
         this.productRepository = productRepository;
         this.productShopRepository = productShopRepository;
@@ -89,5 +91,64 @@ public class ProductServiceImpl {
         });
 
         return productShopEntities;
+    }
+
+    public ResponseEntity insertProduct(ProductDTO productDTO) throws Exception {
+        ProductEntity newProduct;
+        //Mercadona id
+        Integer shopId = 1;
+
+        if (productDTO == null) {
+            throw new NotFoundException("No hay datos de entrada");
+        }
+
+        ProductEntity productEntity = mapper.toProductEntity(productDTO);
+        try{
+            newProduct = productRepository.save(productEntity);
+        } catch (Exception e) {
+            throw new Exception("Error al insertar producto");
+        }
+
+        ProductShopEntity productShopEntity = mapper.toProductShopEntity(newProduct, shopId);
+        productShopRepository.save(productShopEntity);
+
+        return new ResponseEntity("Insertado!", HttpStatus.CREATED);
+    }
+
+    public ResponseEntity deleteProduct(Integer productId) {
+        try {
+            productShopRepository.deleteByProduct(productId);
+            productRepository.deleteById(productId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No existe el producto con id " + productId + "\n" + e.getMessage());
+        }
+        return new ResponseEntity("Borrado!", HttpStatus.CREATED);
+    }
+
+    public ProductEntity updateProduct(ProductDTO productDTO) {
+        ProductEntity productEntity = mapper.toProductEntity(productDTO);
+        ProductEntity updatedProduct;
+        try {
+            updatedProduct = productRepository.save(productEntity);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No existe el producto con id " + productEntity.getId() + "\n" + e.getMessage());
+        }
+        return updatedProduct;
+    }
+
+    public ResponseEntity updateEssentialProduct(Integer productId) {
+        Optional<ProductEntity> productEntity = productRepository.findById(productId);
+        //Comprobamos si hay resultado
+        if (productEntity.isPresent()) {
+            productEntity.get().setEssential(Boolean.TRUE);
+        } else {
+            throw new NotFoundException("No existe el producto con id " + productId);
+        }
+        try {
+            productRepository.save(productEntity.get());
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No existe el producto con id " + productId + "\n" + e.getMessage());
+        }
+        return new ResponseEntity("Modificado el valor de favorito!", HttpStatus.OK);
     }
 }

@@ -1,9 +1,9 @@
 package es.organlist.controller;
 
 import es.organlist.model.dto.ListDTO;
-import es.organlist.model.dto.ProductDTO;
+import es.organlist.model.dto.UserDTO;
 import es.organlist.model.entity.ListEntity;
-import es.organlist.service.impl.ListService;
+import es.organlist.service.ListService;
 import es.organlist.utils.DefaultDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,6 +32,25 @@ public class ListController {
         this.listService = listService;
     }
 
+    @Operation(summary = "Recuperar una lista",
+            description = "Recuperar una lista de la BBDD por id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully!",
+                            content = @Content(schema = @Schema(implementation = ListDTO.class))
+                    )
+            })
+    //Common ApiResponses
+    @DefaultDocumentation
+    @GetMapping(value = "{listId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ListDTO getList(
+            @Parameter(description = "Identificador de la lista")
+            @PathVariable Integer listId
+    ) {
+        return listService.getList(listId);
+    }
+
     @Operation(summary = "Recupera todas las listas",
             description = "Recupera todas las listas de la BBDD",
             responses = {
@@ -55,9 +74,7 @@ public class ListController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully!",
-                            content = @Content(
-                                    array = @ArraySchema(schema = @Schema(implementation = ResponseEntity.class))
-                            )
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
                     )
             })
     @DefaultDocumentation
@@ -75,9 +92,7 @@ public class ListController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully!",
-                            content = @Content(
-                                    array = @ArraySchema(schema = @Schema(implementation = ResponseEntity.class))
-                            )
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
                     )
             })
     @DefaultDocumentation
@@ -95,9 +110,7 @@ public class ListController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully!",
-                            content = @Content(
-                                    array = @ArraySchema(schema = @Schema(implementation = ListEntity.class))
-                            )
+                            content = @Content(schema = @Schema(implementation = ListEntity.class))
                     )
             })
     @DefaultDocumentation
@@ -115,9 +128,7 @@ public class ListController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully!",
-                            content = @Content(
-                                    array = @ArraySchema(schema = @Schema(implementation = ResponseEntity.class))
-                            )
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
                     )
             })
     @DefaultDocumentation
