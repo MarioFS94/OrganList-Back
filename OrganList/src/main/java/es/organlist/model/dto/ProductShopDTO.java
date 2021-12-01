@@ -11,11 +11,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductShopDTO {
+
     @Schema(description = "Identificador del registro que relaciona los productos con las tiendas")
     private Integer id;
 
     @Schema(description =  "producto")
-    private BigDecimal product;
+    private Integer product;
 
     @Schema(description =  "tienda")
     private Integer shop;

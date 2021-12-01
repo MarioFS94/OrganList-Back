@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 @Builder
 @Data
@@ -18,17 +17,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "listaproducto")
-public class ProductListEntity {
+@Table(name = "tienda")
+public class ShopEntity {
+
     @Id
     private Integer id;
 
-    @Column(name = "producto")
-    private Integer product;
+    @Column(name =  "nombre")
+    private String name;
 
-    @Column(name = "lista")
-    private Integer list;
+    @Column(name =  "tipo")
+    private String type;
 
-    @Column(name = "unidades")
-    private int units;
 }

@@ -2,12 +2,10 @@ package es.organlist.mappers;
 
 import es.organlist.model.dto.ListDTO;
 import es.organlist.model.dto.ProductDTO;
+import es.organlist.model.dto.ShopDTO;
 import es.organlist.model.dto.UserDTO;
 import es.organlist.model.dto.api.ProductAPIDTO;
-import es.organlist.model.entity.ListEntity;
-import es.organlist.model.entity.ProductEntity;
-import es.organlist.model.entity.ProductShopEntity;
-import es.organlist.model.entity.UserEntity;
+import es.organlist.model.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ValueMapping;
@@ -43,4 +41,8 @@ public interface OrganListMapper {
     ListEntity toListEntity(ListDTO listDTO);
 
     UserEntity toUserEntity(UserDTO userDTO);
+
+    ShopDTO toShopDTO(ShopEntity shopEntity);
+
+    List<ShopDTO> toShopDTOList(List<ShopEntity> shopEntities);
 }
