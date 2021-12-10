@@ -44,6 +44,11 @@ public class UserService {
         return userList.stream().map(mapper::toUserDTO).collect(Collectors.toList());//user -> mapper.toUserDTO(user)
     }
 
+    public UserDTO getUserByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email);
+        return mapper.toUserDTO(userEntity);
+    }
+
     public ResponseEntity<String> insertUser(UserDTO userDTO) {
         if (userDTO == null) {
             throw new NotFoundException("No hay datos de entrada");
@@ -59,7 +64,7 @@ public class UserService {
         } catch (EmptyResultDataAccessException e) {
             throw new NotFoundException("No existe el producto con id " + userId + "\n" + e.getMessage());
         }
-        return new ResponseEntity<>("Borrado!", HttpStatus.CREATED);
+        return new ResponseEntity<>("Borrado!", HttpStatus.OK);
     }
 
     public UserEntity updateUser(UserDTO UserDTO) {

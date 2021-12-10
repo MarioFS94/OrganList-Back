@@ -1,6 +1,5 @@
 package es.organlist.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -8,9 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * The type User dto.
- */
 @Builder
 @Data
 @NoArgsConstructor
@@ -18,34 +14,19 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
-    /**
-     * The Id.
-     */
-    @Schema(description = "User identifier")
+    @Schema(description = "Identificador del usuario")
     private Integer id;
 
-    /**
-     * The Name.
-     */
-    @Schema(description = "User name", example = "Mario")
+    @Schema(description = "Nombre del usuario", example = "Mario")
     private String name;
 
-    /**
-     * The Email.
-     */
-    @Schema(description = "User email", example = "mariofernandezs1@gmail.com")
+    @Schema(description = "Email del usuario", example = "mariofernandezs1@gmail.com")
     private String email;
 
-    /**
-     * The Phone.
-     */
-    @Schema(description = "User phone", example = "666554433")
+    @Schema(description = "Telefono del usuario", example = "666554433")
     private String phone;
 
-    /**
-     * The Pass.
-     */
-    @JsonIgnore
-    @Schema(description = "User password", hidden = true)
+    //@JsonIgnore
+    @Schema(description = "Contraseña del usuario", hidden = true)
     private String pass;
 }

@@ -3,10 +3,14 @@ package es.organlist.service;
 import es.organlist.mappers.OrganListMapper;
 import es.organlist.model.dto.ProductShopDTO;
 import es.organlist.model.dto.ShopDTO;
+import es.organlist.model.entity.ListEntity;
 import es.organlist.model.entity.ShopEntity;
 import es.organlist.repository.ProductShopRepository;
 import es.organlist.repository.ShopRepository;
 import org.mapstruct.factory.Mappers;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -48,5 +52,23 @@ public class ShopService {
 
     public String getShopType(int productId) {
         return null;
+    }
+
+    public ResponseEntity<String> insertShop(ShopDTO shopDTO) {
+        if (shopDTO == null) {
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No hay datos de entrada");
+        }
+        ShopEntity shopEntity = mapper.toShopEntity(shopDTO);
+        shopRepository.save(shopEntity);
+        return new ResponseEntity("Insertado!", HttpStatus.CREATED);
+    }
+
+    public ResponseEntity deleteShop(Integer shopId) {
+        try {
+            shopRepository.deleteById(shopId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No existe el producto con id " + shopId + "\n" + e.getMessage());
+        }
+        return new ResponseEntity("Borrado!", HttpStatus.OK);
     }
 }

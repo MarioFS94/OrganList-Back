@@ -26,10 +26,10 @@ public class ListDTO {
     @Schema(name = "Descripción de la lista")
     private String description;
 
-    @Schema(name = "Indicador de si una lista es favorita o recurrente")
+    @Schema(name = "Indicador de si una lista es favorita o recurrente", example = "true")
     @JsonProperty("favorite")
     private boolean fav;
 
     @Schema(name = "Usuario creador de la lista")
-    private Integer user;
+    private UserDTO user;
 }

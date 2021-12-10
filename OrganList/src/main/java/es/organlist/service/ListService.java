@@ -29,13 +29,16 @@ public class ListService {
     }
 
     public List<ListDTO> getLists() {
-        List<ListEntity> listEntities = listRepository.findAll();
+        List<ListEntity> listEntities = listRepository.findListData();
+        if (listEntities.isEmpty()) {
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No hay datos de entrada");
+        }
         return listEntities.stream().map(listEntity -> mapper.toListDTO(listEntity)).collect(Collectors.toList());
     }
 
     public ResponseEntity insertList(ListDTO list) {
         if (list == null) {
-            throw new NotFoundException("No hay datos de entrada");
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No hay datos de entrada");
         }
         ListEntity entityList = mapper.toListEntity(list);
         listRepository.save(entityList);
@@ -46,9 +49,9 @@ public class ListService {
         try {
             listRepository.deleteById(listId);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("No existe el producto con id " + listId + "\n" + e.getMessage());
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No existe el producto con id " + listId + "\n" + e.getMessage());
         }
-        return new ResponseEntity("Borrado!", HttpStatus.CREATED);
+        return new ResponseEntity("Borrado!", HttpStatus.OK);
     }
 
     public ListEntity updateList(ListDTO listDTO) {
@@ -57,31 +60,33 @@ public class ListService {
         try {
             updatedList = listRepository.save(listEntity);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("No existe el producto con id " + listEntity.getId() + "\n" + e.getMessage());
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No existe el producto con id " + listEntity.getId() + "\n" + e.getMessage());
         }
         return updatedList;
     }
 
-    public ResponseEntity updateFavoriteList(Integer listId) {
-        Optional<ListEntity> listEntity = listRepository.findById(listId);
+    public List<ListDTO> updateFavoriteList(Integer listId) {
+
+        Optional<ListEntity> listEntityOpt = listRepository.findById(listId);
+
         //Comprobamos si hay resultado
-        if (listEntity.isPresent()) {
-            listEntity.get().setFav(Boolean.TRUE);
+        if (listEntityOpt.isPresent()) {
+            ListEntity listEntity = listEntityOpt.get();
+            //vemos si es favorito y modificamos el valor
+            listEntity.setFav(listEntity.isFav() ? Boolean.FALSE : Boolean.TRUE);
         } else {
-            throw new NotFoundException("No existe el producto con id " + listId);
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - No existe el producto con id " + listId);
         }
-        try {
-            listRepository.save(listEntity.get());
-        } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("No existe el producto con id " + listId + "\n" + e.getMessage());
-        }
-        return new ResponseEntity("Modificado el valor de favorito!", HttpStatus.OK);
+
+        listRepository.save(listEntityOpt.get());
+
+        return getLists();
     }
 
     public ListDTO getList(Integer listId) {
         Optional<ListEntity> listEntity = listRepository.findById(listId);
         if (!listEntity.isPresent()) {
-            throw new NotFoundException("La lista con id " + listId + " no existe.");
+            throw new NotFoundException(HttpStatus.NOT_FOUND + " - La lista con id " + listId + " no existe.");
         }
         return mapper.toListDTO(listEntity.get());
     }

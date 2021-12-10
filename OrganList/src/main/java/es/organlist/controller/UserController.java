@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Tag(name = "UserController", description = "Gestión de usuarios")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
@@ -47,6 +48,23 @@ public class UserController {
             @PathVariable Integer userId
     ) {
         return userService.getUser(userId);
+    }
+    @Operation(summary = "Recuperar un usuario por su email",
+            description = "Recuperar un usuario de la BBDD por email",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully!",
+                            content = @Content(schema = @Schema(implementation = UserDTO.class))
+                    )
+            })
+    //Common ApiResponses
+    @DefaultDocumentation
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getUserByEmail(
+            @Parameter(description = "Email del usuario a consultar")
+            @RequestParam String email) {
+        return userService.getUserByEmail(email);
     }
 
     @Operation(summary = "Recuperar todos los usuarios",

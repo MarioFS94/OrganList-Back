@@ -128,12 +128,14 @@ public class ListController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Successfully!",
-                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+                            content = @Content(
+                                    array = @ArraySchema(schema = @Schema(implementation = ListDTO.class))
+                            )
                     )
             })
     @DefaultDocumentation
-    @PatchMapping
-    public ResponseEntity updateFavoriteList(
+    @PatchMapping("favorite")
+    public List<ListDTO> updateFavoriteList(
             @Parameter(description = "Identificador de la lista a modificar")
             @RequestParam Integer listId
     ) {

@@ -1,9 +1,6 @@
 package es.organlist.controller;
 
-import es.organlist.model.dto.ListDTO;
 import es.organlist.model.dto.ShopDTO;
-import es.organlist.model.entity.ListEntity;
-import es.organlist.service.ListService;
 import es.organlist.service.ShopService;
 import es.organlist.utils.DefaultDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,6 +66,40 @@ public class ShopController {
     ) {
         return shopService.getShop(shopId);
     }
+
+    @Operation(summary = "Insertar una tienda",
+            description = "Insertar una tienda en la BBDD",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully!",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+                    )
+            })
+    @DefaultDocumentation
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> insertShop(@Parameter(description = "Objeto de entrada con la nueva tienda")
+                                             @RequestBody ShopDTO shopDTO) {
+        return shopService.insertShop(shopDTO);
+    }
+
+    @Operation(summary = "Borrar una tienda",
+            description = "Borrar una tienda de la BBDD",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully!",
+                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
+                    )
+            })
+    @DefaultDocumentation
+    @DeleteMapping
+    public ResponseEntity deleteShop(
+            @Parameter(description = "Identificador de la tienda")
+            @RequestParam Integer shopId
+    ) {
+        return shopService.deleteShop(shopId);
+    }
     /*
     @Operation(summary = "Recuperar una tienda",
             description = "Recuperar una tienda de la BBDD por id",
@@ -90,41 +121,7 @@ public class ShopController {
     }
 
 
-    @Operation(summary = "Insertar una tienda",
-            description = "Insertar una tienda de la BBDD",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully!",
-                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
-                    )
-            })
-    @DefaultDocumentation
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity insertList(
-            @Parameter(description = "Objeto de entrada con la nueva lista")
-            @RequestBody ListDTO list
-    ) {
-        return listService.insertList(list);
-    }
 
-    @Operation(summary = "Borrar una tienda",
-            description = "Borrar una tienda de la BBDD",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successfully!",
-                            content = @Content(schema = @Schema(implementation = ResponseEntity.class))
-                    )
-            })
-    @DefaultDocumentation
-    @DeleteMapping
-    public ResponseEntity deleteList(
-            @Parameter(description = "Identificador de la lista")
-            @RequestParam Integer listId
-    ) {
-        return listService.deleteList(listId);
-    }
 
     @Operation(summary = "Modificación de una tienda",
             description = "Modificación de una tienda de la BBDD",

@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Builder
 @Data
@@ -21,6 +18,8 @@ import javax.persistence.Table;
 public class UserEntity {
 
     @Id
+    //@OneToMany
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//indicar que el id lo va a generar la BBDD
     private Integer id;
 
     @Column(name = "nombre")

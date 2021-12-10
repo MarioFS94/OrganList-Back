@@ -70,13 +70,6 @@ public class ProductAPIService {
         List<CategoryAPIDTO> list = callProductCategoriesEndpoint(lang);
         return getProducts(list, lang);
     }
-
-    /**
-     * Call product categories endpoint.
-     *
-     * @param lang the lang
-     * @return the list
-     */
     private List<CategoryAPIDTO> callProductCategoriesEndpoint(String lang) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(rootMercadonaAPI + "/api/v1_1/categories/?lang=" + lang)
@@ -93,28 +86,17 @@ public class ProductAPIService {
 
         return list;
     }
-
-    /**
-     * Gets products.
-     *
-     * @param categories the categories
-     * @param lang       the lang
-     * @return the products
-     */
     private List<ProductAPIDTO> getProducts(List<CategoryAPIDTO> categories, String lang) {
         List<ProductAPIDTO> products = new ArrayList<>();
 
         for (CategoryAPIDTO category : categories) {
-
             for (CategoryAPIDTO subcategory : category.getCategories()) {
                 //Sacamos la subcategorias
                 CategoryAPIDTO categoryObj = getProductsCategoryById(subcategory.getId(), lang);
                 //sacamos los productos de cada categoria
                 List<ProductAPIDTO> categoryProducts = getProductsByCategory(categoryObj);
                 products.addAll(categoryProducts);
-
             }
-
         }
 
         Util.checkEmptyList(products.isEmpty(), "No hay productos");

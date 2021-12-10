@@ -22,37 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * The type Product controller.
- */
 @RestController
 @RequestMapping("/api/products")
 @Tag(name = "ProductAPIController", description = "Gestión de productos de la API de Mercadona")
 public class ProductAPIController {
 
-    /**
-     * The Product service.
-     */
     private final ProductAPIService productServiceApi;
 
-    /**
-     * Instantiates a new Product controller.
-     *
-     * @param productServiceApi the product service
-     */
     @Autowired
     public ProductAPIController(ProductAPIService productServiceApi) {
         this.productServiceApi = productServiceApi;
     }
 
-    /**
-     * Gets products categories.
-     *
-     * @param lang the lang
-     * @return the products categories
-     */
-    @Operation(summary = "Get products categories endpoint",
-            description = "Get products categories endpoint",
+    @Operation(summary = "Recuperar las categorias de los productos",
+            description = "Recuperar las categorias de los productos de la BBDD",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -71,15 +54,8 @@ public class ProductAPIController {
         return productServiceApi.getProductsCategories(lang);
     }
 
-    /**
-     * Gets products category by id.
-     *
-     * @param categoryId the category id
-     * @param lang       the lang
-     * @return the products category by id
-     */
-    @Operation(summary = "Get products category by id endpoint",
-            description = "Get products category by id endpoint",
+    @Operation(summary = "Recuperar las categorias de un producto por id",
+            description = "Recuperar las categorias de un producto por id de la BBDD",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -98,15 +74,8 @@ public class ProductAPIController {
         return productServiceApi.getProductsCategoryById(categoryId, lang);
     }
 
-    /**
-     * Gets product by id.
-     *
-     * @param productId the product id
-     * @param lang      the lang
-     * @return the product by id
-     */
-    @Operation(summary = "Get products category by id endpoint",
-            description = "Get products category by id endpoint",
+    @Operation(summary = "Recuperar un producto por id",
+            description = "Recuperar un producto por id de la BBDD",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -124,15 +93,8 @@ public class ProductAPIController {
         return productServiceApi.getProductById(productId, lang);
     }
 
-    /**
-     * Gets products by category.
-     *
-     * @param categoryId the category id
-     * @param lang       the lang
-     * @return the products by category
-     */
-    @Operation(summary = "Get product list by category id endpoint",
-            description = "Get product list by category id endpoint",
+    @Operation(summary = "Recuperar los productos por el id de la categoria",
+            description = "Recuperar los productos por el id de la categoria de la BBDD",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -152,14 +114,8 @@ public class ProductAPIController {
     }
 
 
-    /**
-     * Gets all products.
-     *
-     * @param lang the lang
-     * @return the all products
-     */
-    @Operation(summary = "Get all products endpoint",
-            description = "Get all products endpoint",
+    @Operation(summary = "Recuperar todos los productos",
+            description = "Recuperar todos los productos de la BBDD",
             responses = {
                     @ApiResponse(
                             responseCode = "200",

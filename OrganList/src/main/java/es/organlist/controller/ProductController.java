@@ -1,6 +1,7 @@
 package es.organlist.controller;
 
 import es.organlist.model.dto.ProductDTO;
+import es.organlist.model.dto.ProductListDTO;
 import es.organlist.model.entity.ProductEntity;
 import es.organlist.service.ProductService;
 import es.organlist.utils.DefaultDocumentation;
@@ -44,10 +45,8 @@ public class ProductController {
             })
     @DefaultDocumentation
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ProductDTO> getAllProducts(
-//            @Parameter(description = "Idioma usado") @RequestParam(required = false, defaultValue = "es") String lang
-    ) {
-        return productService.getProducts(/*lang*/);
+    public List<ProductDTO> getAllProducts() {
+        return productService.getProducts();
     }
 
     @Operation(summary = "Cargar datos en BBDD",
@@ -136,6 +135,26 @@ public class ProductController {
             @RequestParam Integer productId
     ) {
         return productService.updateEssentialProduct(productId);
+    }
+
+    @Operation(summary = "Recuperar productos de una lista",
+            description = "Recuperar productos de una lista de la BBDD",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Successfully!",
+                            content = @Content(
+                                    array = @ArraySchema(schema = @Schema(implementation = ProductDTO.class))
+                            )
+                    )
+            })
+    @DefaultDocumentation
+    @GetMapping(value = "lists/{listId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ProductListDTO> getProductByList(
+            @Parameter(description = "Identificador de una lista")
+            @PathVariable Integer listId
+    ) {
+        return productService.getProductByList(listId);
     }
 
 }
